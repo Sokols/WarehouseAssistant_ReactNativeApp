@@ -1,28 +1,33 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+
+import { createAppContainer, createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { setNavigator } from './src/navigationRef';
+
+import store from './src/redux/store/index';
+import { Provider } from 'react-redux';
+
 import SignupScreen from './src/screens/SignupScreen';
 import SigninScreen from './src/screens/SigninScreen';
+import HomeScreen from './src/screens/HomeScreen';
+import AccountScreen from './src/screens/AccountScreen';
 
-const Stack = createStackNavigator();
+const switchNavigator = createSwitchNavigator({
+    loginFlow: createStackNavigator({
+        Signup: SignupScreen,
+        Signin: SigninScreen
+    }),
+    mainFlow: createBottomTabNavigator({
+        Home: HomeScreen,
+        Account: AccountScreen
+    })
+})
 
-const App = () => {
-    return (
-        <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen
-                    name="Signup"
-                    component={SignupScreen}
-                    options={{ headerShown: false }}
-                />
-                <Stack.Screen
-                    name="Signin"
-                    component={SigninScreen}
-                    options={{ headerShown: false }}    
-                />
-            </Stack.Navigator>
-        </NavigationContainer>
-    )
-}
+const App = createAppContainer(switchNavigator);
 
-export default App;
+export default () => (
+    <Provider store={store}>
+        <App ref={(navigator) => setNavigator(navigator)} />
+    </Provider>
+)
