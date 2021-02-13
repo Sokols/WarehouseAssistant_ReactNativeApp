@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import mainStyle from '../styles/style';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -10,7 +11,7 @@ class HomeScreen extends Component {
 
   render() {
     return (
-      <View>
+      <View style={mainStyle.viewStyle}>
         <Text> HomeScreen </Text>
       </View>
     );

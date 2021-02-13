@@ -41,7 +41,7 @@ export const removeErrorMessage = () => (dispatch) => {
     dispatch({ type: ERROR_REMOVED });
 }
 
-export const tryLocalSignin = (dispatch) => {
+export const tryLocalSignin = () => async (dispatch) =>{
     const token = AsyncStorage.getItem('token');
     if (token) {
         dispatch({ type: SIGNIN, payload: token });

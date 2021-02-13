@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import LoginForm from '../components/LoginForm';
 import NavLink from '../components/NavLink';
 import { removeErrorMessage } from '../redux/actions/loginActions';
+import mainStyle from '../styles/style';
 
 class SignupScreen extends Component {
     static navigationOptions = {
@@ -19,7 +20,7 @@ class SignupScreen extends Component {
         const { navigation } = this.props;
 
         return (
-            <View style={styles.viewStyle}>
+            <View style={mainStyle.viewStyle}>
                 <NavigationEvents
                     onWillFocus={this.props.removeErrorMessage}
                 />
@@ -35,14 +36,7 @@ class SignupScreen extends Component {
     }
 }
 
-const styles = StyleSheet.create({
-    viewStyle: {
-        flex: 1,
-        backgroundColor: '#2B2B2B',
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
-})
+const styles = StyleSheet.create({})
 
 export default connect(
     null,

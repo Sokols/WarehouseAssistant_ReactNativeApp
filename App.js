@@ -12,16 +12,35 @@ import SignupScreen from './src/screens/SignupScreen';
 import SigninScreen from './src/screens/SigninScreen';
 import HomeScreen from './src/screens/HomeScreen';
 import AccountScreen from './src/screens/AccountScreen';
+import StartEmptyScreen from './src/screens/StartEmptyScreen';
+
+const mainFlow = createBottomTabNavigator(
+    {
+        Home: {
+            screen: HomeScreen,
+            navigationOptions: {
+
+            }
+        },
+        Account: {
+            screen: AccountScreen
+        }
+    },
+    {
+        tabBarOptions: {
+            activeTintColor: 'black',
+            inactiveTintColor: '#4f4f4f'
+        }
+    }
+)
 
 const switchNavigator = createSwitchNavigator({
+    StartEmpty: StartEmptyScreen,
     loginFlow: createStackNavigator({
         Signup: SignupScreen,
         Signin: SigninScreen
     }),
-    mainFlow: createBottomTabNavigator({
-        Home: HomeScreen,
-        Account: AccountScreen
-    })
+    mainFlow
 })
 
 const App = createAppContainer(switchNavigator);
