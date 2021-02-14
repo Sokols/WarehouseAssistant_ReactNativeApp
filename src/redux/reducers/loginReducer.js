@@ -7,10 +7,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
     switch (action.type) {
-        case 'test':
-            return { ...state, errorMessage: 'Something happened!' };
-
-        case SIGNIN:
+       case SIGNIN:
             return { errorMessage: '', token: action.payload };
 
         case SIGNOUT:

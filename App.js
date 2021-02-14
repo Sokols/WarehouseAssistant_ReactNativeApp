@@ -2,8 +2,8 @@ import React from 'react';
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { setNavigator } from './src/navigationRef';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
 
 import store from './src/redux/store/index';
 import { Provider } from 'react-redux';
@@ -14,22 +14,29 @@ import HomeScreen from './src/screens/HomeScreen';
 import AccountScreen from './src/screens/AccountScreen';
 import StartEmptyScreen from './src/screens/StartEmptyScreen';
 
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
 const mainFlow = createBottomTabNavigator(
     {
         Home: {
             screen: HomeScreen,
             navigationOptions: {
-
+                tabBarIcon: () => <Icon size={24} name="home" color="white" />
             }
         },
         Account: {
-            screen: AccountScreen
+            screen: AccountScreen,
+            navigationOptions: {
+                tabBarIcon: () => <Icon size={24} name="person" color="white" />
+            }
         }
     },
     {
         tabBarOptions: {
-            activeTintColor: 'black',
-            inactiveTintColor: '#4f4f4f'
+            activeTintColor: 'white',
+            inactiveTintColor: 'white',
+            inactiveBackgroundColor: '#1E1D1D',
+            activeBackgroundColor: '#141414'
         }
     }
 )

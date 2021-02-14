@@ -41,8 +41,8 @@ export const removeErrorMessage = () => (dispatch) => {
     dispatch({ type: ERROR_REMOVED });
 }
 
-export const tryLocalSignin = () => async (dispatch) =>{
-    const token = AsyncStorage.getItem('token');
+export const tryLocalSignin = () => async (dispatch) => {
+    const token = await AsyncStorage.getItem('token');
     if (token) {
         dispatch({ type: SIGNIN, payload: token });
         navigate('Home');
