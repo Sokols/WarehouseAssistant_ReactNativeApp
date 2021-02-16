@@ -12,7 +12,7 @@ export const signup = ({ email, password }) => async (dispatch)  => {
     } catch (error) {
         dispatch({
             type: ERROR_OCCURED,
-            payload: 'Something went wrong with sign up'
+            payload: 'Something went wrong with sign up.'
         });
     }
 };
@@ -26,7 +26,7 @@ export const signin = ({ email, password }) => async (dispatch) => {
     } catch (error) {
         dispatch({
             type: ERROR_OCCURED,
-            payload: 'Something went wrong with sign in'
+            payload: 'Something went wrong with sign in.'
         });
     }
 };
@@ -45,7 +45,7 @@ export const tryLocalSignin = () => async (dispatch) => {
     const token = await AsyncStorage.getItem('token');
     if (token) {
         dispatch({ type: SIGNIN, payload: token });
-        navigate('Home');
+        navigate('Main');
     } else {
         navigate('Signin');
     }
