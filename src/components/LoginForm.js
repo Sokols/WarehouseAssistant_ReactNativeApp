@@ -90,7 +90,8 @@ const styles = StyleSheet.create({
         alignSelf: 'center'
     },
     errorStyle: {
-        color: 'white'
+        color: 'white',
+        marginBottom: 10
     },
     imageStyle: {
         marginTop: 50,

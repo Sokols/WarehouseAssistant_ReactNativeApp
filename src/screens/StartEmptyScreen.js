@@ -1,27 +1,25 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Image } from 'react-native-elements';
 import { tryLocalSignin } from '../redux/actions/loginActions';
 import { connect } from 'react-redux';
 import mainStyle from '../styles/style';
 
-class StartEmptyScreen extends Component {
-    componentDidMount() {
+const StartEmptyScreen = ({ tryLocalSignin }) => {
+    useEffect(() => {
         setTimeout(() => {
-            this.props.tryLocalSignin();
+            tryLocalSignin();
         }, 2000);
-    }
+    })
 
-    render() {
-        return (
-            <View style={mainStyle.viewStyle} >
-                <Image
-                    style={styles.imageStyle}
-                    source={require('../../assets/logo.png')}
-                />
-            </View>
-        );
-    }
+    return (
+        <View style={mainStyle.viewStyle} >
+            <Image
+                style={styles.imageStyle}
+                source={require('../../assets/logo.png')}
+            />
+        </View>
+    );
 }
 
 export default connect(
