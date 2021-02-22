@@ -1,7 +1,7 @@
 import { SIGNOUT, SIGNIN, ERROR_OCCURED, ERROR_REMOVED } from './types';
 import api from '../../api/api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { navigate } from '../../navigationRef';
+import { navigate } from '../../RootNavigation';
 
 export const signup = ({ email, password }) => async (dispatch)  => {
     try {
@@ -34,7 +34,6 @@ export const signin = ({ email, password }) => async (dispatch) => {
 export const signout = () => async (dispatch) => {
     await AsyncStorage.removeItem('token');
     dispatch({ type: SIGNOUT });
-    navigate('Signin');
 }
 
 export const removeErrorMessage = () => (dispatch) => {
@@ -45,7 +44,6 @@ export const tryLocalSignin = () => async (dispatch) => {
     const token = await AsyncStorage.getItem('token');
     if (token) {
         dispatch({ type: SIGNIN, payload: token });
-        navigate('Main');
     } else {
         navigate('Signin');
     }

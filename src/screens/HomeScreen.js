@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import mainStyle from '../styles/style';
 
-class HomeScreen extends Component {
-  render() {
+const HomeScreen = () => {
     return (
       <View style={mainStyle.viewStyle}>
         <Text>Home</Text>  
       </View>
     );
-  }
 }
 
 const styles = StyleSheet.create({

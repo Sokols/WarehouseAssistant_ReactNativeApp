@@ -8,7 +8,26 @@ const Drawer = createDrawerNavigator();
 
 const MainDrawerNavigator = () => {
     return (
-        <Drawer.Navigator>
+        <Drawer.Navigator
+            initialRouteName="Account"
+            screenOptions={{ 
+                headerShown: true,
+                headerStyle: {
+                    backgroundColor: '#2B2B2B'
+                },
+                headerTintColor: 'white'
+            }}
+            drawerType='slide'
+            drawerStyle={{
+                backgroundColor: '#2B2B2B'
+            }}
+            drawerContentOptions={{
+                labelStyle: {
+                    color: 'white'
+                },
+                activeTintColor: 'gray'
+            }}
+        >
             <Drawer.Screen
                 name="Home"
                 component={HomeScreen}

@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {View} from 'react-native'
-import {connect} from 'react-redux'
-import { NavigationContainer, StackActions } from '@react-navigation/native';
-import { createStackNavigator,  } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-
+import { connect } from 'react-redux'
 import LoginStackNavigator from './LoginStackNavigator';
 import MainDrawerNavigator from './MainDrawerNavigator';
 
 
-Routes = (props) => {
+const Routes = ({ token }) => {
   const [logged, setLogged] = useState(false)
- 
+
   useEffect(() => {
     isLogged()
-  },[props.token])
- 
+  }, [token])
+
   const isLogged = () => {
-    console.log(props.token);
-    
-    if(props.token) {    
+    if (token) {
       setLogged(true)
     } else {
       setLogged(false)
@@ -28,17 +21,17 @@ Routes = (props) => {
 
   return (
     (!logged ?
-        <LoginStackNavigator />
+      <LoginStackNavigator />
       :
-        <MainDrawerNavigator />
+      <MainDrawerNavigator />
     )
   )
 }
- 
+
 const mapStateToProps = (state) => {
-  return{
+  return {
     token: state.login.token
   }
-} 
+}
 
 export default connect(mapStateToProps, null)(Routes)
