@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { navigationRef } from './src/RootNavigation';
+import { navigationRef } from './src/navigation/RootNavigation';
 import { NavigationContainer } from '@react-navigation/native';
-import Routes from './src/navigation/Routes';
+import MainNavigator from './src/navigation/MainNavigator';
 
 import store from './src/redux/store/index';
 import { Provider } from 'react-redux';
@@ -10,7 +10,7 @@ import { Provider } from 'react-redux';
 export default () => (
     <Provider store={store}>
         <NavigationContainer ref={navigationRef} >
-            <Routes />
+            <MainNavigator />
         </NavigationContainer>
     </Provider>
 )

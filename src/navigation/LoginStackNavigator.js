@@ -3,7 +3,6 @@ import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/
 
 import SigninScreen from '../screens/SigninScreen';
 import SignupScreen from '../screens/SignupScreen';
-import StartEmptyScreen from '../screens/StartEmptyScreen';
 
 const Stack = createStackNavigator();
 
@@ -15,10 +14,6 @@ const LoginStackNavigator = () => {
                 cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS
             }}
         >
-            <Stack.Screen
-                name="Start"
-                component={StartEmptyScreen}
-            />
             <Stack.Screen
                 name="Signin"
                 component={SigninScreen}
