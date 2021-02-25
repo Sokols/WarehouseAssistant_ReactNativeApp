@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Text, Input, Image } from 'react-native-elements';
+import { View, StyleSheet } from 'react-native';
+import { Text, Image } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { test, signin, signup } from '../redux/actions/loginActions';
+import { signin, signup, completeAllFields } from '../redux/actions/loginActions';
+import DefaultButton from './DefaultButton';
+import DefaultInput from './DefaultInput';
 
 class LoginForm extends Component {
     constructor(props) {
@@ -23,39 +25,34 @@ class LoginForm extends Component {
 
     _onSubmit = () => {
         const { email, password } = this.state;
-        this.props.titleText === "Sign Up"
+        email && password 
+        ? (this.props.titleText === "Sign Up"
             ? this.props.signup({ email, password })
-            : this.props.signin({ email, password });
+            : this.props.signin({ email, password }))
+        : this.props.completeAllFields();
     }
 
     render() {
         return (
             <View style={styles.viewStyle}>
                 <Text h1 style={styles.titleStyle}>{this.props.titleText}</Text>
-                <Input
+                <DefaultInput
                     placeholder="Email"
-                    placeholderTextColor="#FFFFFF88"
                     value={this.state.email}
-                    inputContainerStyle={styles.inputStyle}
                     onChangeText={this._onEmailChanged}
-                    style={styles.inputStyle}
+                    secureTextEntry={false}
                 />
-                <Input
+                <DefaultInput
                     placeholder="Password"
-                    placeholderTextColor="#FFFFFF88"
                     value={this.state.password}
-                    style={styles.inputStyle}
-                    inputContainerStyle={styles.inputStyle}
                     onChangeText={this._onPasswordChanged}
                     secureTextEntry={true}
                 />
                 <Text style={styles.errorStyle}>{this.props.errorMessage}</Text>
-                <TouchableOpacity
-                    style={styles.touchStyle}
-                    onPress={this._onSubmit}
-                >
-                    <Text h4 style={styles.buttonStyle}>OKAY</Text>
-                </TouchableOpacity>
+                <DefaultButton
+                    buttonText="OKAY"
+                    onClick={this._onSubmit}
+                />
                 <Image
                     style={styles.imageStyle}
                     source={require('../../assets/logo.png')}
@@ -66,13 +63,13 @@ class LoginForm extends Component {
 }
 
 const mapStateToProps = ({ login }) => {
-    const { errorMessage, token } = login;
-    return { errorMessage, token };
+    const { errorMessage } = login;
+    return { errorMessage };
 }
 
 export default connect(
     mapStateToProps,
-    { test, signin, signup }
+    { signin, signup, completeAllFields }
 )(LoginForm);
 
 const styles = StyleSheet.create({
@@ -83,11 +80,6 @@ const styles = StyleSheet.create({
     titleStyle: {
         color: 'white',
         marginBottom: 25
-    },
-    inputStyle: {
-        borderColor: 'white',
-        color: 'white',
-        alignSelf: 'center'
     },
     errorStyle: {
         color: 'white',
@@ -100,15 +92,5 @@ const styles = StyleSheet.create({
         borderRadius: 90,
         borderWidth: 1,
         borderColor: 'white'
-    },
-    buttonStyle: {
-        color: 'white'
-    },
-    touchStyle: {
-        borderWidth: 1,
-        borderColor: 'white',
-        borderRadius: 20,
-        paddingVertical: 5,
-        paddingHorizontal: 10
     }
 })

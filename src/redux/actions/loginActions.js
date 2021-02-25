@@ -5,6 +5,7 @@ import auth from '@react-native-firebase/auth';
 export const signup = ({ email, password }) => (dispatch) => {
     auth()
         .createUserWithEmailAndPassword(email, password)
+        .then(() => navigate('Home'))
         .catch(error => {
             if (error.code === 'auth/email-already-in-use') {
                 dispatch({
@@ -20,13 +21,13 @@ export const signup = ({ email, password }) => (dispatch) => {
                 });
             }
             console.error(error);
-        })
-        .then(() => navigate('Home'));
+        });
 };
 
 export const signin = ({ email, password }) => (dispatch) => {
     auth()
         .signInWithEmailAndPassword(email, password)
+        .then(() => navigate('Home'))
         .catch(error => {
             if (error.code === 'auth/user-not-found') {
                 dispatch({
@@ -41,9 +42,15 @@ export const signin = ({ email, password }) => (dispatch) => {
                     payload: 'Wrong password!'
                 });
             }
+
+            if (error.code === 'auth/invalid-email') {
+                dispatch({
+                    type: ERROR_OCCURED,
+                    payload: 'That email address is invalid!'
+                });
+            }
             console.error(error);
-        })
-        .then(() => navigate('Home'));
+        });
 };
 
 export const signout = () => () => {
@@ -53,4 +60,11 @@ export const signout = () => () => {
 
 export const removeErrorMessage = () => (dispatch) => {
     dispatch({ type: ERROR_REMOVED });
+}
+
+export const completeAllFields = () => (dispatch) => {
+    dispatch({
+        type: ERROR_OCCURED,
+        payload: 'Complete all fields!'
+    });
 }
