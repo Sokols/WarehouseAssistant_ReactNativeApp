@@ -1,17 +1,24 @@
-import React, { useState } from 'react';
-import { SafeAreaView, FlatList, View, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, FlatList, View, StyleSheet, Text } from 'react-native';
 import mainStyle from '../styles/style';
 import DefaultButton from '../components/DefaultButton';
 import ProvideNameOverlay from '../components/ProvideNameOverlay';
 import { connect } from 'react-redux';
-import { addPlace } from '../redux/actions/structureActions';
-import firestore from '@react-native-firebase/firestore';
+import { getPlaces, addPlace } from '../redux/actions/structureActions';
 
-const StructureScreen = ({ places }) => {
+const StructureScreen = ({ places, getPlaces, addPlace }) => {
   const [visible, setVisible] = useState(false);
 
   const toggleOverlay = () => {
     setVisible(!visible);
+  }
+
+  useEffect(() => {
+    getPlaces();
+  }, []);
+
+  const getPlaceId = item => {
+    return item.area + "-" + item.row + "-" + item.shelf + "-" + item.place;
   }
 
   return (
@@ -20,14 +27,17 @@ const StructureScreen = ({ places }) => {
         <SafeAreaView style={styles.containerStyle}>
           <FlatList
             data={places}
+            keyExtractor={(item) => getPlaceId(item)}
             renderItem={({ item }) => (
-              null
+              <View>
+                <Text style={{ fontSize: 18, color: 'white' }}>{getPlaceId(item)}</Text>
+              </View>
             )}
           />
         </SafeAreaView>
         <DefaultButton
           buttonText="Add area"
-          onClick={toggleOverlay}
+          onClick={addPlace}
         />
         <ProvideNameOverlay
           warehouseLevel="Area"
@@ -46,7 +56,7 @@ const mapStateToProps = ({ structure }) => {
 
 export default connect(
   mapStateToProps,
-  { addPlace }
+  { getPlaces, addPlace }
 )(StructureScreen);
 
 const styles = StyleSheet.create({

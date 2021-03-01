@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { Overlay, Text } from 'react-native-elements';
 import mainStyle from '../styles/style';
 import DefaultButton from './DefaultButton';
@@ -7,7 +7,7 @@ import DefaultInput from './DefaultInput';
 
 const ProvideNameOverlay = ({ warehouseLevel, isVisible, toggleOverlay }) => {
     const [name, setName] = useState('');
-    
+
     const _onNameChanged = name => {
         setName(name);
     };
@@ -18,16 +18,18 @@ const ProvideNameOverlay = ({ warehouseLevel, isVisible, toggleOverlay }) => {
             isVisible={isVisible}
             onBackdropPress={toggleOverlay}
         >
-            <Text style={styles.textStyle}>Provide {warehouseLevel}:</Text>
-            <DefaultInput
-                placeholder={warehouseLevel}
-                secureTextEntry={false}
-                value={name}
-                onChangeText={_onNameChanged}
-            />
-            <DefaultButton
-                buttonText="OKAY"
-            />
+            <View>
+                <Text style={styles.textStyle}>Provide {warehouseLevel}:</Text>
+                <DefaultInput
+                    placeholder={warehouseLevel}
+                    secureTextEntry={false}
+                    value={name}
+                    onChangeText={_onNameChanged}
+                />
+                <DefaultButton
+                    buttonText="OKAY"
+                />
+            </View>
         </Overlay>
     )
 };
