@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, FlatList, View, StyleSheet, Text } from 'react-native';
+import { navigate, push } from '../navigation/RootNavigation';
+import { SafeAreaView, FlatList, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { ListItem } from 'react-native-elements';
 import mainStyle from '../styles/style';
 import DefaultButton from '../components/DefaultButton';
 import ProvideNameOverlay from '../components/ProvideNameOverlay';
 import { connect } from 'react-redux';
 import { getPlaces, addPlace } from '../redux/actions/structureActions';
 
-const StructureScreen = ({ places, getPlaces, addPlace }) => {
+const StructureScreen = ({ route, places, getPlaces, addPlace }) => {
   const [visible, setVisible] = useState(false);
 
+  const { items } = route.params;
+  console.log(items);
   const toggleOverlay = () => {
     setVisible(!visible);
   }
@@ -17,34 +21,47 @@ const StructureScreen = ({ places, getPlaces, addPlace }) => {
     getPlaces();
   }, []);
 
-  const getPlaceId = item => {
-    return item.area + "-" + item.row + "-" + item.shelf + "-" + item.place;
-  }
-
   return (
     <View style={mainStyle.viewStyle}>
-      <View style={styles.structureStyle}>
-        <SafeAreaView style={styles.containerStyle}>
-          <FlatList
-            data={places}
-            keyExtractor={(item) => getPlaceId(item)}
-            renderItem={({ item }) => (
-              <View>
-                <Text style={{ fontSize: 18, color: 'white' }}>{getPlaceId(item)}</Text>
-              </View>
-            )}
-          />
-        </SafeAreaView>
-        <DefaultButton
-          buttonText="Add area"
-          onClick={addPlace}
+      <SafeAreaView style={styles.structureStyle}>
+        <FlatList
+          data={places}
+          keyExtractor={(item) => item._id}
+          renderItem={({ item }) => (
+            <View>
+              <TouchableOpacity
+                onPress={() => { navigate('Structure', { items: item.places }) }}
+              >
+                <ListItem
+                  bottomDivider
+                  containerStyle={styles.listStyle}
+                >
+                  <ListItem.Content>
+                    <ListItem.Title style={styles.listItemStyle}>{item._id}</ListItem.Title>
+                  </ListItem.Content>
+                  <ListItem.Chevron />
+                </ListItem>
+              </TouchableOpacity>
+            </View>
+          )}
         />
+        <View style={styles.buttonStyle}>
+          <DefaultButton
+            buttonText="Add area"
+            onClick={toggleOverlay}
+          />
+        </View>
         <ProvideNameOverlay
           warehouseLevel="Area"
           isVisible={visible}
-          toggleOverlay={toggleOverlay}          
+          toggleOverlay={toggleOverlay}
+          onSubmit={name => {
+            if (name && name !== "") {
+              addPlace(name);
+            }
+          }}
         />
-      </View>
+      </SafeAreaView>
     </View>
   );
 }
@@ -61,12 +78,18 @@ export default connect(
 
 const styles = StyleSheet.create({
   structureStyle: {
-    padding: 10,
     flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'flex-start'
+    alignSelf: 'stretch'
   },
-  containerStyle: {
-    flex: 1
+  listStyle: {
+    backgroundColor: mainStyle.viewStyle.backgroundColor
+  },
+  buttonStyle: {
+    alignSelf: 'center',
+    paddingBottom: 20
+  },
+  listItemStyle: {
+    color: 'white',
+    fontSize: 20
   }
 });

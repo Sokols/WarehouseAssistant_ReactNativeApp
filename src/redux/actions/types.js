@@ -4,4 +4,3 @@ export const ERROR_REMOVED = 'error_removed';
 
 // STRUCTURE TYPES
 export const GET_PLACES = 'get_places';
-export const ADD_PLACE = 'add_place';
