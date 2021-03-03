@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Overlay, Text } from 'react-native-elements';
+
 import mainStyle from '../styles/style';
+import { MAIN_COLOR } from '../styles/colors';
+
 import DefaultButton from './DefaultButton';
 import DefaultInput from './DefaultInput';
 
@@ -12,8 +15,7 @@ const ProvideNameOverlay = ({ onSubmit, warehouseLevel, isVisible, toggleOverlay
     const _onSubmit = () => {
         if (name && name !== '') {
             onSubmit(name);
-            toggleOverlay();
-            setErrorMessage('');
+            _onToggleOverlay();
         } else {
             setErrorMessage('Value cannot be null!');
         }
@@ -22,6 +24,7 @@ const ProvideNameOverlay = ({ onSubmit, warehouseLevel, isVisible, toggleOverlay
     const _onToggleOverlay = () => {
         toggleOverlay();
         setErrorMessage('');
+        setName('');
     };
 
     const _onNameChanged = name => {
@@ -67,7 +70,7 @@ const styles = StyleSheet.create({
         padding: 30,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: mainStyle.viewStyle.backgroundColor
+        backgroundColor: MAIN_COLOR
     },
     viewStyle: {
         alignItems: 'center'

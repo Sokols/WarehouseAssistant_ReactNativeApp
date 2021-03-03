@@ -1,65 +1,58 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text, Image } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { signin, signup, completeAllFields } from '../redux/actions/loginActions';
+import { initMainNode } from '../redux/actions/structureActions';
 import DefaultButton from './DefaultButton';
 import DefaultInput from './DefaultInput';
 
-class LoginForm extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            password: ''
-        };
+const LoginForm = ({ signup, signin, completeAllFields, initMainNode, titleText, errorMessage }) => {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const _onEmailChanged = email => {
+        setEmail(email);
     };
 
-    _onEmailChanged = email => {
-        this.setState({ email });
+    const _onPasswordChanged = password => {
+        setPassword(password);
     };
 
-    _onPasswordChanged = password => {
-        this.setState({ password });
-    };
-
-    _onSubmit = () => {
-        const { email, password } = this.state;
-        email && password 
-        ? (this.props.titleText === "Sign Up"
-            ? this.props.signup({ email, password })
-            : this.props.signin({ email, password }))
-        : this.props.completeAllFields();
+    const _onSubmit = () => {
+        email && password
+            ? (titleText === "Sign Up"
+                ? signup({ email, password, initMainNode })
+                : signin({ email, password }))
+            : completeAllFields();
     }
 
-    render() {
-        return (
-            <View style={styles.viewStyle}>
-                <Text h1 style={styles.titleStyle}>{this.props.titleText}</Text>
-                <DefaultInput
-                    placeholder="Email"
-                    value={this.state.email}
-                    onChangeText={this._onEmailChanged}
-                    secureTextEntry={false}
-                />
-                <DefaultInput
-                    placeholder="Password"
-                    value={this.state.password}
-                    onChangeText={this._onPasswordChanged}
-                    secureTextEntry={true}
-                />
-                <Text style={styles.errorStyle}>{this.props.errorMessage}</Text>
-                <DefaultButton
-                    buttonText="OKAY"
-                    onClick={this._onSubmit}
-                />
-                <Image
-                    style={styles.imageStyle}
-                    source={require('../../assets/logo.png')}
-                />
-            </View>
-        );
-    }
+    return (
+        <View style={styles.viewStyle}>
+            <Text h1 style={styles.titleStyle}>{titleText}</Text>
+            <DefaultInput
+                placeholder="Email"
+                value={email}
+                onChangeText={_onEmailChanged}
+                secureTextEntry={false}
+            />
+            <DefaultInput
+                placeholder="Password"
+                value={password}
+                onChangeText={_onPasswordChanged}
+                secureTextEntry={true}
+            />
+            <Text style={styles.errorStyle}>{errorMessage}</Text>
+            <DefaultButton
+                buttonText="OKAY"
+                onClick={_onSubmit}
+            />
+            <Image
+                style={styles.imageStyle}
+                source={require('../../assets/logo.png')}
+            />
+        </View>
+    );
 }
 
 const mapStateToProps = ({ login }) => {
@@ -69,7 +62,7 @@ const mapStateToProps = ({ login }) => {
 
 export default connect(
     mapStateToProps,
-    { signin, signup, completeAllFields }
+    { signin, signup, completeAllFields, initMainNode }
 )(LoginForm);
 
 const styles = StyleSheet.create({
