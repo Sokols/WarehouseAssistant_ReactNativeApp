@@ -2,19 +2,30 @@ import React from 'react';
 import { TouchableOpacity, StyleSheet } from 'react-native';
 import { Text } from 'react-native-elements';
 
-const DefaultButton = ({ buttonText, onClick }) => (
+const DefaultButton = ({ isClickable, buttonText, onClick }) => (
     <TouchableOpacity
+        disabled={!isClickable}
         style={styles.touchStyle}
         onPress={onClick}
     >
-        <Text style={styles.buttonStyle}>{buttonText}</Text>
+        <Text 
+            style={isClickable 
+                ? styles.enabledButtonStyle 
+                : styles.disabledButtonStyle}
+        >
+            {buttonText}
+        </Text>
     </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
-    buttonStyle: {
-        fontSize: 18,
+    enabledButtonStyle: {
+        fontSize: 20,
         color: 'white'
+    },
+    disabledButtonStyle: {
+        fontSize: 20,
+        color: 'gray'
     },
     touchStyle: {
         borderWidth: 1,

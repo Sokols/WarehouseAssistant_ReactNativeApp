@@ -5,15 +5,18 @@ import mainStyle from '../styles/style';
 import auth from '@react-native-firebase/auth';
 
 import { connect } from 'react-redux';
-import { setPlaces, setMainRef } from '../redux/actions/structureActions';
 
-const HomeScreen = ({ setPlaces, setMainRef }) => {
+import { setData, setMainRef } from '../redux/actions/structureActions';
+import { SET_PLACES, SET_PLACES_TO_DISPLAY } from '../redux/actions/types';
+
+const HomeScreen = ({ setData, setMainRef }) => {
   const { email } = auth().currentUser;
 
   useEffect(() => {
     // SET UP DATA IN APP
     setMainRef();
-    setPlaces();
+    setData(SET_PLACES);
+    setData(SET_PLACES_TO_DISPLAY);
   })
 
   return (
@@ -29,5 +32,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   null,
-  { setPlaces, setMainRef }
+  { setData, setMainRef }
 )(HomeScreen);

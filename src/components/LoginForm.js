@@ -44,6 +44,7 @@ const LoginForm = ({ signup, signin, completeAllFields, initMainNode, titleText,
             />
             <Text style={styles.errorStyle}>{errorMessage}</Text>
             <DefaultButton
+                isClickable
                 buttonText="OKAY"
                 onClick={_onSubmit}
             />

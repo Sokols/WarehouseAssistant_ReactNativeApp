@@ -53,6 +53,7 @@ const ProvideNameOverlay = ({ onSubmit, warehouseLevel, isVisible, toggleOverlay
                 <DefaultButton
                     buttonText="OKAY"
                     onClick={_onSubmit}
+                    isClickable
                 />
             </View>
         </Overlay>

@@ -31,19 +31,10 @@ export const nextRef = name => {
 };
 
 export const prevRef = () => {
-
+    return getCurrentRef()
+        .parent
+        .parent;
 };
-
-export const getPlaces = async () => {
-    const snapshot = getCurrentRef()
-        .collection(PLACES_COLLECTION)
-        .get();
-
-    // snapshot.forEach(doc => {
-    //     data.push({ id: doc.id, ...doc.data() });
-    // })
-    return data;
-}
 
 export const addData = data => {
     getCurrentRef()

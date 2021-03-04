@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
-import { navigate } from '../navigation/RootNavigation';
 import { SafeAreaView, FlatList, View, StyleSheet, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
@@ -11,11 +10,12 @@ import DefaultButton from '../components/DefaultButton';
 import ProvideNameOverlay from '../components/ProvideNameOverlay';
 
 import { connect } from 'react-redux';
-import { addPlace } from '../redux/actions/structureActions';
+import { addPlace, setRef, setData, setMainRef } from '../redux/actions/structureActions';
+import { SET_PLACES_TO_DISPLAY } from '../redux/actions/types';
 
-const StructureScreen = ({ places, addPlace }) => {
+const StructureScreen = ({ placesToDisplay, refLevel, addPlace, setRef, setData }) => {
   const [visible, setVisible] = useState(false);
-
+  
   const toggleOverlay = () => {
     setVisible(!visible);
   }
@@ -24,12 +24,12 @@ const StructureScreen = ({ places, addPlace }) => {
     <View style={mainStyle.viewStyle}>
       <SafeAreaView style={styles.structureStyle}>
         <FlatList
-          data={places}
+          data={placesToDisplay}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View>
               <TouchableOpacity
-                onPress={() => { navigate('Structure') }}
+                onPress={() => setRef(item.id, setData, SET_PLACES_TO_DISPLAY)}
               >
                 <ListItem
                   bottomDivider
@@ -44,9 +44,15 @@ const StructureScreen = ({ places, addPlace }) => {
             </View>
           )}
         />
-        <View style={styles.buttonStyle}>
+        <View style={styles.buttonsContainerStyle}>
+          <DefaultButton
+            buttonText="Go back"
+            isClickable={refLevel > 0 ? true : false}
+            onClick={() => setRef(null, setData, SET_PLACES_TO_DISPLAY)}
+          />
           <DefaultButton
             buttonText="Add area"
+            isClickable
             onClick={toggleOverlay}
           />
         </View>
@@ -54,11 +60,7 @@ const StructureScreen = ({ places, addPlace }) => {
           warehouseLevel="Area"
           isVisible={visible}
           toggleOverlay={toggleOverlay}
-          onSubmit={name => {
-            if (name && name !== "") {
-              addPlace(name);
-            }
-          }}
+          onSubmit={name => addPlace(name)}
         />
       </SafeAreaView>
     </View>
@@ -66,13 +68,13 @@ const StructureScreen = ({ places, addPlace }) => {
 }
 
 const mapStateToProps = ({ structure }) => {
-  const { places } = structure;
-  return { places };
+  const { placesToDisplay, refLevel } = structure;
+  return { placesToDisplay, refLevel };
 }
 
 export default connect(
   mapStateToProps,
-  { addPlace }
+  { addPlace, setRef, setMainRef, setData }
 )(StructureScreen);
 
 const styles = StyleSheet.create({
@@ -83,7 +85,8 @@ const styles = StyleSheet.create({
   listStyle: {
     backgroundColor: MAIN_COLOR
   },
-  buttonStyle: {
+  buttonsContainerStyle: {
+    flexDirection: 'row',
     alignSelf: 'center',
     paddingVertical: 20
   },
