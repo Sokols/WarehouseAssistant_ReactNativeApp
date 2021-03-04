@@ -1,53 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { navigate, push } from '../navigation/RootNavigation';
-import { SafeAreaView, FlatList, View, StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { ListItem } from 'react-native-elements';
-import mainStyle from '../styles/style';
-import DefaultButton from '../components/DefaultButton';
-import ProvideNameOverlay from '../components/ProvideNameOverlay';
-import { connect } from 'react-redux';
-import { getPlaces, addPlace } from '../redux/actions/structureActions';
+import React, { useState } from 'react';
 
-const StructureScreen = ({ route, places, getPlaces, addPlace }) => {
+import { SafeAreaView, View, StyleSheet } from 'react-native';
+
+import mainStyle from '../styles/style';
+
+import DefaultButton from '../components/DefaultButton';
+import DefaultSwipeList from '../components/DefaultSwipeList';
+import ProvideNameOverlay from '../components/ProvideNameOverlay';
+
+import { connect } from 'react-redux';
+import { addPlace, removePlace, setRef, setData, setMainRef } from '../redux/actions/structureActions';
+import { SET_PLACES_TO_DISPLAY } from '../redux/actions/types';
+
+const StructureScreen = ({ placesToDisplay, refLevel, addPlace, removePlace, setRef, setData }) => {
   const [visible, setVisible] = useState(false);
 
-  const { items } = route.params;
-  console.log(items);
   const toggleOverlay = () => {
     setVisible(!visible);
   }
 
-  useEffect(() => {
-    getPlaces();
-  }, []);
-
   return (
     <View style={mainStyle.viewStyle}>
       <SafeAreaView style={styles.structureStyle}>
-        <FlatList
-          data={places}
-          keyExtractor={(item) => item._id}
-          renderItem={({ item }) => (
-            <View>
-              <TouchableOpacity
-                onPress={() => { navigate('Structure', { items: item.places }) }}
-              >
-                <ListItem
-                  bottomDivider
-                  containerStyle={styles.listStyle}
-                >
-                  <ListItem.Content>
-                    <ListItem.Title style={styles.listItemStyle}>{item._id}</ListItem.Title>
-                  </ListItem.Content>
-                  <ListItem.Chevron />
-                </ListItem>
-              </TouchableOpacity>
-            </View>
-          )}
+        <DefaultSwipeList
+          data={placesToDisplay}
+          onItemClick={(id) => setRef(id, setData, SET_PLACES_TO_DISPLAY)}
+          onHiddenItemClick={(id) => removePlace(id)}
         />
-        <View style={styles.buttonStyle}>
+        <View style={styles.buttonsContainerStyle}>
+          <DefaultButton
+            buttonText="Go back"
+            isClickable={refLevel > 0 ? true : false}
+            onClick={() => setRef(null, setData, SET_PLACES_TO_DISPLAY)}
+          />
           <DefaultButton
             buttonText="Add area"
+            isClickable
             onClick={toggleOverlay}
           />
         </View>
@@ -55,11 +43,7 @@ const StructureScreen = ({ route, places, getPlaces, addPlace }) => {
           warehouseLevel="Area"
           isVisible={visible}
           toggleOverlay={toggleOverlay}
-          onSubmit={name => {
-            if (name && name !== "") {
-              addPlace(name);
-            }
-          }}
+          onSubmit={name => addPlace(name)}
         />
       </SafeAreaView>
     </View>
@@ -67,13 +51,13 @@ const StructureScreen = ({ route, places, getPlaces, addPlace }) => {
 }
 
 const mapStateToProps = ({ structure }) => {
-  const { places } = structure;
-  return { places };
+  const { placesToDisplay, refLevel } = structure;
+  return { placesToDisplay, refLevel };
 }
 
 export default connect(
   mapStateToProps,
-  { getPlaces, addPlace }
+  { addPlace, removePlace, setRef, setMainRef, setData }
 )(StructureScreen);
 
 const styles = StyleSheet.create({
@@ -81,15 +65,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'stretch'
   },
-  listStyle: {
-    backgroundColor: mainStyle.viewStyle.backgroundColor
-  },
-  buttonStyle: {
+  buttonsContainerStyle: {
+    flexDirection: 'row',
     alignSelf: 'center',
-    paddingBottom: 20
+    paddingVertical: 20
   },
-  listItemStyle: {
-    color: 'white',
-    fontSize: 20
-  }
 });

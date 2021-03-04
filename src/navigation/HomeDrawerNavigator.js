@@ -1,6 +1,9 @@
 import React from 'react';
+
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
+
+import { MAIN_COLOR, SECONDARY_COLOR } from '../styles/colors';
 
 import HomeScreen from '../screens/HomeScreen';
 import StructureScreen from '../screens/StructureScreen';
@@ -32,19 +35,19 @@ const HomeDrawerNavigator = () => {
             screenOptions={{
                 headerShown: true,
                 headerStyle: {
-                    backgroundColor: '#2B2B2B'
+                    backgroundColor: SECONDARY_COLOR
                 },
                 headerTintColor: 'white'
             }}
             drawerType='slide'
             drawerStyle={{
-                backgroundColor: '#2B2B2B'
+                backgroundColor: MAIN_COLOR
             }}
             drawerContentOptions={{
                 labelStyle: {
                     color: 'white'
                 },
-                activeTintColor: 'gray'
+                activeTintColor: SECONDARY_COLOR
             }}
         >
             <Drawer.Screen

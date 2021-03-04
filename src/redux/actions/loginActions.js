@@ -1,14 +1,13 @@
 import { ERROR_OCCURED, ERROR_REMOVED } from './types';
 import { navigate } from '../../navigation/RootNavigation';
 import auth from '@react-native-firebase/auth';
-import { setNodeDoc } from '../../data/firestore';
 
-export const signup = ({ email, password }) => (dispatch) => {
+export const signup = ({ email, password, initMainNode }) => (dispatch) => {
     auth()
         .createUserWithEmailAndPassword(email, password)
         .then(() => {
-            navigate('Home')
-            setNodeDoc(email);
+            initMainNode();
+            navigate('Home');
         })
         .catch(error => {
             if (error.code === 'auth/email-already-in-use') {

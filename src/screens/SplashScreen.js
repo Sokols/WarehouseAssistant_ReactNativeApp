@@ -1,21 +1,27 @@
 import React, { useEffect } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Image } from 'react-native-elements';
+
 import mainStyle from '../styles/style';
+
 import auth from '@react-native-firebase/auth';
 
-const SplashScreen = ({ navigation }) => {
+import { connect } from 'react-redux';
+import { resetData } from '../redux/actions/structureActions';
+
+const SplashScreen = ({ navigation, resetData }) => {
     useEffect(() => {
-       NavigateToScreens();
+        resetData();
+        navigateToScreens();
     }, [navigation]);
 
-    function NavigateToScreens() {
+    function navigateToScreens() {
         const { currentUser } = auth();
         setTimeout(() => {
             if (!currentUser) {
                 navigation.reset({
                     index: 0,
-                    routes: [{ name: 'Login'}]
+                    routes: [{ name: 'Login' }]
                 });
             } else {
                 navigation.reset({
@@ -36,7 +42,10 @@ const SplashScreen = ({ navigation }) => {
     );
 }
 
-export default SplashScreen;
+export default connect(
+    null,
+    { resetData }
+)(SplashScreen);
 
 const styles = StyleSheet.create({
     imageStyle: {
