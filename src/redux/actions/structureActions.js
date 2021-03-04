@@ -1,6 +1,6 @@
 import { RESET_DATA, SET_REF } from './types';
 
-import { getCurrentRef, addData, nextRef, prevRef, getMainRef, prepareMainNode } from '../../data/firestore';
+import { getCurrentRef, addData, nextRef, prevRef, getMainRef, prepareMainNode, removeData } from '../../data/firestore';
 import { PLACES_COLLECTION } from '../../data/constants';
 
 export const resetData = () => dispatch => {
@@ -56,3 +56,6 @@ export const addPlace = name => () => {
     addData(name);
 };
 
+export const removePlace = name => () => {
+    removeData(name, null);
+};
