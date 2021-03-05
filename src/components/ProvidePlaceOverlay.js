@@ -2,19 +2,20 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Overlay, Text } from 'react-native-elements';
 
-import mainStyle from '../styles/style';
 import { MAIN_COLOR } from '../styles/colors';
 
 import DefaultButton from './DefaultButton';
 import DefaultInput from './DefaultInput';
 
-const ProvideNameOverlay = ({ onSubmit, warehouseLevel, isVisible, toggleOverlay }) => {
+const ProvidePlaceOverlay = ({ onSubmit, isVisible, toggleOverlay }) => {
     const [errorMessage, setErrorMessage] = useState('');
     const [name, setName] = useState('');
 
     const _onSubmit = () => {
-        if (name && name !== '') {
-            onSubmit(name);
+        if (name !== '') {
+            const id = name;
+            const data = { info: '' };
+            onSubmit({ id, data});
             _onToggleOverlay();
         } else {
             setErrorMessage('Value cannot be null!');
@@ -38,9 +39,9 @@ const ProvideNameOverlay = ({ onSubmit, warehouseLevel, isVisible, toggleOverlay
             onBackdropPress={_onToggleOverlay}
         >
             <View style={styles.viewStyle}>
-                <Text style={styles.textStyle}>Provide {warehouseLevel}:</Text>
+                <Text style={styles.textStyle}>Provide area:</Text>
                 <DefaultInput
-                    placeholder={warehouseLevel}
+                    placeholder='Area'
                     secureTextEntry={false}
                     value={name}
                     onChangeText={_onNameChanged}
@@ -83,4 +84,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ProvideNameOverlay;
+export default ProvidePlaceOverlay;

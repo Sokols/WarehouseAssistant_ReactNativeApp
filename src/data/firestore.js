@@ -1,4 +1,4 @@
-import { MAIN_COLLECTION, PLACES_COLLECTION } from './constants';
+import { ITEMS_COLLECTION, MAIN_COLLECTION, PLACES_COLLECTION } from './constants';
 import store from '../redux/store/index';
 import firestore from '@react-native-firebase/firestore';
 import auth from '@react-native-firebase/auth';
@@ -35,11 +35,18 @@ export const prevRef = () => {
         .parent;
 };
 
-export const addData = data => {
-    getCurrentRef()
-        .collection(PLACES_COLLECTION)
-        .doc(data)
-        .set({ info: '' });
+export const addData = (id, data, TYPE) => {
+    if (TYPE === ITEMS_COLLECTION) {
+        getMainRef()
+            .collection(TYPE)
+            .doc(id)                       // TODO: ADD REFRESH REF AFTER SCREEN CHANGE
+            .set(data)
+    } else {
+        getCurrentRef()
+            .collection(TYPE)
+            .doc(id)
+            .set(data);
+    }
 };
 
 export const removeData = async (data, ref) => {

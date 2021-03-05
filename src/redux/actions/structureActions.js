@@ -19,22 +19,6 @@ export const setMainRef = () => dispatch => {
     });
 };
 
-export const setData = TYPE => dispatch => {
-    const snapshot = getCurrentRef()
-        .collection(PLACES_COLLECTION)
-        .onSnapshot(querySnapshot => {
-            let data = [];
-            querySnapshot.forEach(doc => {
-                data.push({ id: doc.id, ...doc.data() });
-            })
-            dispatch({
-                type: TYPE,
-                payload: data
-            });
-        });
-    return snapshot;
-}
-
 export const setRef = (name, setData, TYPE) => dispatch => {
     let ref;
     let refLevel = 0;
@@ -52,8 +36,25 @@ export const setRef = (name, setData, TYPE) => dispatch => {
     setData(TYPE);
 };
 
-export const addPlace = name => () => {
-    addData(name);
+export const setData = TYPE => dispatch => {
+    const snapshot = getCurrentRef()
+        .collection(PLACES_COLLECTION)
+        .onSnapshot(querySnapshot => {
+            let data = [];
+            querySnapshot.forEach(doc => {
+                data.push({ id: doc.id, ...doc.data() });
+            })
+            dispatch({
+                type: TYPE,
+                payload: data
+            });
+        });
+    return snapshot;
+};
+
+
+export const addPlace = ({ id, data }) => () => {
+    addData(id, data, PLACES_COLLECTION);
 };
 
 export const removePlace = name => () => {

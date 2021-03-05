@@ -10,8 +10,8 @@ const PickItemScreen = () => {
     );
 }
 
+export default PickItemScreen;
+
 const styles = StyleSheet.create({
   
 });
-
-export default PickItemScreen;

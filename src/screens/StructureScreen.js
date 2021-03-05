@@ -6,11 +6,12 @@ import mainStyle from '../styles/style';
 
 import DefaultButton from '../components/DefaultButton';
 import DefaultSwipeList from '../components/DefaultSwipeList';
-import ProvideNameOverlay from '../components/ProvideNameOverlay';
+import ProvidePlaceOverlay from '../components/ProvidePlaceOverlay';
 
 import { connect } from 'react-redux';
 import { addPlace, removePlace, setRef, setData, setMainRef } from '../redux/actions/structureActions';
 import { SET_PLACES_TO_DISPLAY } from '../redux/actions/types';
+import DefaultPlaceListItem from '../components/DefaultPlaceListItem';
 
 const StructureScreen = ({ placesToDisplay, refLevel, addPlace, removePlace, setRef, setData }) => {
   const [visible, setVisible] = useState(false);
@@ -26,24 +27,24 @@ const StructureScreen = ({ placesToDisplay, refLevel, addPlace, removePlace, set
           data={placesToDisplay}
           onItemClick={(id) => setRef(id, setData, SET_PLACES_TO_DISPLAY)}
           onHiddenItemClick={(id) => removePlace(id)}
+          listItem={(item) => (<DefaultPlaceListItem item={item} />)}
         />
         <View style={styles.buttonsContainerStyle}>
           <DefaultButton
-            buttonText="Go back"
+            buttonText="RETURN"
             isClickable={refLevel > 0 ? true : false}
             onClick={() => setRef(null, setData, SET_PLACES_TO_DISPLAY)}
           />
           <DefaultButton
-            buttonText="Add area"
+            buttonText="ADD A PLACE"
             isClickable
             onClick={toggleOverlay}
           />
         </View>
-        <ProvideNameOverlay
-          warehouseLevel="Area"
+        <ProvidePlaceOverlay
           isVisible={visible}
           toggleOverlay={toggleOverlay}
-          onSubmit={name => addPlace(name)}
+          onSubmit={data => addPlace(data)}
         />
       </SafeAreaView>
     </View>

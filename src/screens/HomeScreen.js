@@ -7,9 +7,10 @@ import auth from '@react-native-firebase/auth';
 import { connect } from 'react-redux';
 
 import { setData, setMainRef } from '../redux/actions/structureActions';
+import { setItems } from '../redux/actions/itemsActions';
 import { SET_PLACES, SET_PLACES_TO_DISPLAY } from '../redux/actions/types';
 
-const HomeScreen = ({ setData, setMainRef }) => {
+const HomeScreen = ({ setData, setMainRef, setItems }) => {
   const { email } = auth().currentUser;
 
   useEffect(() => {
@@ -17,6 +18,7 @@ const HomeScreen = ({ setData, setMainRef }) => {
     setMainRef();
     setData(SET_PLACES);
     setData(SET_PLACES_TO_DISPLAY);
+    setItems();
   })
 
   return (
@@ -32,5 +34,5 @@ const styles = StyleSheet.create({
 
 export default connect(
   null,
-  { setData, setMainRef }
+  { setData, setMainRef, setItems }
 )(HomeScreen);
