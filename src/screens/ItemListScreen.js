@@ -17,8 +17,6 @@ const ItemListScreen = ({ items, addItem }) => {
         setVisible(!visible);
     }
 
-    console.log(items);
-
     return (
         <View style={mainStyle.viewStyle}>
             <View style={styles.structureStyle}>
