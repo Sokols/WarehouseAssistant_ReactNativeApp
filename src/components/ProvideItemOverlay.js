@@ -20,7 +20,10 @@ const ProvideItemOverlay = ({ onSubmit, isVisible, toggleOverlay }) => {
     const _onSubmit = () => {
         if (name !== '' && code !== '') {
             const id = code;
-            const data = { name };
+            const data = { 
+                name, 
+                fileUri: image.uri ? image.uri : null, 
+                fileName: image.fileName ? image.fileName : null};
             onSubmit({ id, data });
             _onToggleOverlay();
         } else {
@@ -50,7 +53,8 @@ const ProvideItemOverlay = ({ onSubmit, isVisible, toggleOverlay }) => {
                 {
                     mediaType: 'photo'
                 },
-                image => !image.didCancel ? setImage(image) : null
+                newImage => !newImage.didCancel ? setImage(newImage) : null
+                // newImage => console.log(newImage)
             );
             setBottomSheetVisibility(false)
         },
@@ -59,7 +63,7 @@ const ProvideItemOverlay = ({ onSubmit, isVisible, toggleOverlay }) => {
                 {
                     mediaType: 'photo'
                 },
-                image => !image.didCancel ? setImage(image) : null
+                newImage => !newImage.didCancel ? setImage(newImage) : null
             );
             setBottomSheetVisibility(false)
         },
@@ -94,10 +98,11 @@ const ProvideItemOverlay = ({ onSubmit, isVisible, toggleOverlay }) => {
                                 source={{ uri: image.uri }}
                                 style={styles.imageStyle}
                             />
-                            : <TouchableOpacity onPress={() => setBottomSheetVisibility(true)}>
-                                <Text style={styles.textButtonStyle}>ADD PHOTO</Text>
-                            </TouchableOpacity>
+                            : null
                     }
+                    <TouchableOpacity onPress={() => setBottomSheetVisibility(true)}>
+                        <Text style={styles.textButtonStyle}>ADD PHOTO</Text>
+                    </TouchableOpacity>
                     {
                         errorMessage === ''
                             ? null

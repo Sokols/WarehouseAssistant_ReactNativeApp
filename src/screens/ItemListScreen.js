@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 import mainStyle from '../styles/style';
 
 import DefaultButton from '../components/DefaultButton';
@@ -9,6 +9,7 @@ import DefaultItemListItem from '../components/DefaultItemListItem';
 
 import { connect } from 'react-redux';
 import { addItem } from '../redux/actions/itemsActions';
+import { SECONDARY_COLOR } from '../styles/colors';
 
 const ItemListScreen = ({ items, addItem }) => {
     const [visible, setVisible] = useState(false);
@@ -20,11 +21,10 @@ const ItemListScreen = ({ items, addItem }) => {
     return (
         <View style={mainStyle.viewStyle}>
             <View style={styles.structureStyle}>
-                <DefaultSwipeList
+                <FlatList
                     data={items}
-                    onItemClick={() => { }}
-                    onHiddenItemClick={(id) => {/*removePlace(id)*/ }}
-                    listItem={(item) => (<DefaultItemListItem item={item} />)}
+                    keyExtractor={item => item.id}
+                    renderItem={({item}) => (<DefaultItemListItem item={item} />)}
                 />
                 <View style={styles.buttonsContainerStyle}>
                     <DefaultButton
@@ -58,7 +58,8 @@ export default connect(
 const styles = StyleSheet.create({
     structureStyle: {
       flex: 1,
-      alignSelf: 'stretch'
+      alignSelf: 'stretch',
+      backgroundColor: SECONDARY_COLOR
     },
     buttonsContainerStyle: {
         flexDirection: 'row',
