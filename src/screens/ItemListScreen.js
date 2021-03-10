@@ -10,6 +10,7 @@ import DefaultItemListItem from '../components/DefaultItemListItem';
 import { connect } from 'react-redux';
 import { addItem } from '../redux/actions/itemsActions';
 import { SECONDARY_COLOR } from '../styles/colors';
+import EmptyInfoText from '../components/EmptyInfoText';
 
 const ItemListScreen = ({ items, addItem }) => {
     const [visible, setVisible] = useState(false);
@@ -21,11 +22,18 @@ const ItemListScreen = ({ items, addItem }) => {
     return (
         <View style={mainStyle.viewStyle}>
             <View style={styles.structureStyle}>
-                <FlatList
-                    data={items}
-                    keyExtractor={item => item.id}
-                    renderItem={({item}) => (<DefaultItemListItem item={item} />)}
-                />
+                {
+                    items.length > 0
+                        ?  <FlatList
+                            data={items}
+                            keyExtractor={item => item.id}
+                            renderItem={({item}) => (<DefaultItemListItem item={item} />)}
+                        />
+                        : <EmptyInfoText
+                            text={'There is nothing here.\nAdd new item!'}
+                        />
+                }
+               
                 <View style={styles.buttonsContainerStyle}>
                     <DefaultButton
                         buttonText="ADD AN ITEM"
@@ -34,7 +42,6 @@ const ItemListScreen = ({ items, addItem }) => {
                     />
                 </View>
                 <ProvideItemOverlay
-                    warehouseLevel="Area"
                     isVisible={visible}
                     toggleOverlay={toggleOverlay}
                     onSubmit={data => addItem(data)}

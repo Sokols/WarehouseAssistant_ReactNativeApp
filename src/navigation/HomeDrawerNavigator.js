@@ -3,6 +3,7 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { SECONDARY_COLOR } from '../styles/colors';
+import { HOME, STRUCTURE, ITEM_LIST, ADD_ITEM, PICK_ITEM, ACCOUNT } from './constants';
 
 import HomeScreen from '../screens/HomeScreen';
 import StructureScreen from '../screens/StructureScreen';
@@ -38,7 +39,7 @@ const HomeDrawerNavigator = () => {
             drawerContent={(props) => <DefaultSidebarMenu {...props} />}
         >
             <Drawer.Screen
-                name="Home"
+                name={HOME}
                 component={HomeScreen}
                 options={{
                     title: 'Home',
@@ -46,7 +47,7 @@ const HomeDrawerNavigator = () => {
                 }}
             />
             <Drawer.Screen
-                name="Structure"
+                name={STRUCTURE}
                 component={StructureScreen}                
                 options={{
                     title: 'Warehouse structure',
@@ -54,7 +55,7 @@ const HomeDrawerNavigator = () => {
                 }}
             />
             <Drawer.Screen
-                name="ItemList"
+                name={ITEM_LIST}
                 component={ItemListScreen}                
                 options={{
                     title: 'Item list',
@@ -62,7 +63,7 @@ const HomeDrawerNavigator = () => {
                 }}
             />
             <Drawer.Screen
-                name="AddItem"
+                name={ADD_ITEM}
                 component={AddItemScreen}
                 options={{
                     title: 'Add item',
@@ -70,7 +71,7 @@ const HomeDrawerNavigator = () => {
                 }}
             />
             <Drawer.Screen
-                name="PickItem"
+                name={PICK_ITEM}
                 component={PickItemScreen}
                 options={{
                     title: 'Pick item',
@@ -78,7 +79,7 @@ const HomeDrawerNavigator = () => {
                 }}
             />
             <Drawer.Screen
-                name="Account"
+                name={ACCOUNT}
                 component={AccountScreen}
                 options={{
                     title: 'Account',

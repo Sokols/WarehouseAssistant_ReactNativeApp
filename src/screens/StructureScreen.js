@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { SafeAreaView, View, StyleSheet } from 'react-native';
+import { Text, SafeAreaView, View, StyleSheet } from 'react-native';
 
 import mainStyle from '../styles/style';
 
@@ -11,7 +11,9 @@ import ProvidePlaceOverlay from '../components/ProvidePlaceOverlay';
 import { connect } from 'react-redux';
 import { addPlace, removePlace, setRef, setData, setMainRef } from '../redux/actions/structureActions';
 import { SET_PLACES_TO_DISPLAY } from '../redux/actions/types';
+
 import DefaultPlaceListItem from '../components/DefaultPlaceListItem';
+import EmptyInfoText from '../components/EmptyInfoText';
 
 const StructureScreen = ({ placesToDisplay, refLevel, addPlace, removePlace, setRef, setData }) => {
   const [visible, setVisible] = useState(false);
@@ -23,12 +25,19 @@ const StructureScreen = ({ placesToDisplay, refLevel, addPlace, removePlace, set
   return (
     <View style={mainStyle.viewStyle}>
       <SafeAreaView style={styles.structureStyle}>
-        <DefaultSwipeList
-          data={placesToDisplay}
-          onItemClick={(id) => setRef(id, setData, SET_PLACES_TO_DISPLAY)}
-          onHiddenItemClick={(id) => removePlace(id)}
-          listItem={(item) => (<DefaultPlaceListItem item={item} />)}
-        />
+        {
+          placesToDisplay.length > 0
+            ? <DefaultSwipeList
+              data={placesToDisplay}
+              onItemClick={(id) => setRef(id, setData, SET_PLACES_TO_DISPLAY)}
+              onHiddenItemClick={(id) => removePlace(id)}
+              listItem={(item) => (<DefaultPlaceListItem item={item} />)}
+            />
+            : <EmptyInfoText
+              text={'There is nothing here.\nAdd new warehouse level!'}
+            />
+        }
+
         <View style={styles.buttonsContainerStyle}>
           <DefaultButton
             buttonText="RETURN"
@@ -68,7 +77,7 @@ const styles = StyleSheet.create({
   },
   buttonsContainerStyle: {
     flexDirection: 'row',
-    alignSelf: 'center',
-    paddingVertical: 20
+    margin: 25,
+    justifyContent: 'space-around'
   },
 });
