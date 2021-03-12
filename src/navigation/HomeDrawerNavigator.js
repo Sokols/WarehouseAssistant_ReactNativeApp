@@ -3,14 +3,13 @@ import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import { SECONDARY_COLOR } from '../styles/colors';
-import { HOME, STRUCTURE, ITEM_LIST, ADD_ITEM, PICK_ITEM, ACCOUNT } from './constants';
+import { HOME, STRUCTURE, ITEM_LIST, ADD_ITEM, PICK_ITEM } from './constants';
 
 import HomeScreen from '../screens/HomeScreen';
 import StructureScreen from '../screens/StructureScreen';
 import ItemListScreen from '../screens/ItemListScreen';
 import AddItemScreen from '../screens/AddItemScreen';
 import PickItemScreen from '../screens/PickItemScreen';
-import AccountScreen from '../screens/AccountScreen';
 
 import DefaultSidebarMenu from '../components/DefaultSidebarMenu';
 
@@ -76,14 +75,6 @@ const HomeDrawerNavigator = () => {
                 options={{
                     title: 'Pick item',
                     drawerIcon: () => (<Icon name='upload' type='font-awesome' color='white' />)                     
-                }}
-            />
-            <Drawer.Screen
-                name={ACCOUNT}
-                component={AccountScreen}
-                options={{
-                    title: 'Account',
-                    drawerIcon: () => (<Icon name='user' type='font-awesome' color='white' />)                     
                 }}
             />
         </Drawer.Navigator>

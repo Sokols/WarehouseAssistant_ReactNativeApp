@@ -11,4 +11,3 @@ export const STRUCTURE = 'Structure';
 export const ITEM_LIST = 'ItemList';
 export const ADD_ITEM = 'AddItem';
 export const PICK_ITEM = 'PickItem';
-export const ACCOUNT = 'Account';

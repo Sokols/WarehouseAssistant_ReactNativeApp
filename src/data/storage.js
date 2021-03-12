@@ -12,6 +12,10 @@ export const addPhoto = async (fileUri, fileName) => {
     await getRef(fileName).putFile(fileUri);
 };
 
+export const removePhoto = async (fileName) => {
+    await getRef(fileName).delete();
+};
+
 const getRef = (fileName) => {
     const { email } = auth().currentUser;
     return storage().ref('/' + email + '/' + ITEMS_COLLECTION + '/' + fileName);

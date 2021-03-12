@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Card, Text } from 'react-native-elements';
-import { MAIN_COLOR, SECONDARY_COLOR } from '../styles/colors';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Card, Text, Icon } from 'react-native-elements';
+import { LIGHT_COLOR, SECONDARY_COLOR } from '../styles/colors';
 import { getPhotoUrl } from '../data/storage';
 
-const DefaultItemListItem = ({ item }) => {
+const DefaultItemListItem = ({ item, onItemClick }) => {
     const [imageUrl, setImageUrl] = useState(undefined);
 
     useEffect(() => {
@@ -12,39 +12,46 @@ const DefaultItemListItem = ({ item }) => {
             .then(url => setImageUrl(url));
     });
 
-    return(
-    <Card containerStyle={styles.containerStyle}>
-        <View style={styles.mainCardStyle}>
-            <View>
-                <Card.Image
-                    style={styles.imageStyle}
-                    source={{ uri: imageUrl }}
+    return (
+        <Card containerStyle={styles.containerStyle}>
+            <View style={styles.mainCardStyle}>
+                <View>
+                    <Card.Image
+                        style={styles.imageStyle}
+                        source={{ uri: imageUrl }}
+                    />
+                </View>
+                <View
+                    style={styles.dividerStyle}
                 />
+                <View style={styles.rightStyle}>
+                    <Card.Title style={styles.titleStyle}>{item.name}</Card.Title>
+                    <Text style={styles.subtitleStyle}>ID: {item.id}</Text>
+                    <TouchableOpacity
+                        style={styles.deleteStyle}
+                        onPress={() => onItemClick(item)}
+                    >
+                        <Icon name='trash' type='font-awesome' color='white' />
+                    </TouchableOpacity>
+                </View>
             </View>
-            <View
-                style={styles.dividerStyle}
-            />
-            <View>
-                <Card.Title style={styles.titleStyle}>{item.name}</Card.Title>
-                <Text style={styles.subtitleStyle}>ID: {item.id}</Text>
-            </View>
-        </View>
-    </Card>
-)}
+        </Card>
+    )
+}
 
 export default DefaultItemListItem;
 
 const styles = StyleSheet.create({
     containerStyle: {
-        backgroundColor: MAIN_COLOR,
-        borderColor: SECONDARY_COLOR,
+        backgroundColor: SECONDARY_COLOR,
+        borderColor: LIGHT_COLOR,
         borderRadius: 15
     },
     mainCardStyle: {
         flexDirection: 'row',
     },
-    rowFrontStyle: {
-        backgroundColor: MAIN_COLOR
+    rightStyle: {
+        flex: 1
     },
     titleStyle: {
         color: 'white',
@@ -60,7 +67,12 @@ const styles = StyleSheet.create({
     },
     dividerStyle: {
         borderLeftWidth: 1.5,
-        borderLeftColor: SECONDARY_COLOR,
+        borderLeftColor: LIGHT_COLOR,
         marginHorizontal: 10
+    },
+    deleteStyle: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0
     }
 });

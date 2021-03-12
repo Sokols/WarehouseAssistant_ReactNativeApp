@@ -3,16 +3,15 @@ import { FlatList, View, StyleSheet } from 'react-native';
 import mainStyle from '../styles/style';
 
 import DefaultButton from '../components/DefaultButton';
-import DefaultSwipeList from '../components/DefaultSwipeList';
 import ProvideItemOverlay from '../components/ProvideItemOverlay';
 import DefaultItemListItem from '../components/DefaultItemListItem';
 
 import { connect } from 'react-redux';
-import { addItem } from '../redux/actions/itemsActions';
-import { SECONDARY_COLOR } from '../styles/colors';
+import { addItem, removeItem } from '../redux/actions/itemsActions';
+import { MAIN_COLOR, SECONDARY_COLOR } from '../styles/colors';
 import EmptyInfoText from '../components/EmptyInfoText';
 
-const ItemListScreen = ({ items, addItem }) => {
+const ItemListScreen = ({ items, addItem, removeItem }) => {
     const [visible, setVisible] = useState(false);
 
     const toggleOverlay = () => {
@@ -24,10 +23,15 @@ const ItemListScreen = ({ items, addItem }) => {
             <View style={styles.structureStyle}>
                 {
                     items.length > 0
-                        ?  <FlatList
+                        ? <FlatList
                             data={items}
                             keyExtractor={item => item.id}
-                            renderItem={({item}) => (<DefaultItemListItem item={item} />)}
+                            renderItem={({item}) => (
+                                <DefaultItemListItem 
+                                    item={item}
+                                    onItemClick={(item) => removeItem(item)}
+                                />
+                            )}
                         />
                         : <EmptyInfoText
                             text={'There is nothing here.\nAdd new item!'}
@@ -59,14 +63,14 @@ const mapStateToProps = ({ items }) => {
 
 export default connect(
     mapStateToProps,
-    { addItem }
+    { addItem, removeItem }
 )(ItemListScreen);
 
 const styles = StyleSheet.create({
     structureStyle: {
       flex: 1,
       alignSelf: 'stretch',
-      backgroundColor: SECONDARY_COLOR
+      backgroundColor: MAIN_COLOR
     },
     buttonsContainerStyle: {
         flexDirection: 'row',

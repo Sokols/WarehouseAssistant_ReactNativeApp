@@ -49,7 +49,7 @@ export const addData = (id, data, TYPE) => {
     }
 };
 
-export const removeData = async (data, ref) => {
+export const removeDataRecursively = async (data, ref) => {
     if (!ref) {
         ref = getCurrentRef();
     }
@@ -62,9 +62,15 @@ export const removeData = async (data, ref) => {
     if (!snapshot.empty) {
         snapshot.forEach(doc => {
             // RECURSIVE DOC REMOVING
-            console.log(doc.id + " remove!")
-            removeData(doc.id, ref);
+            removeDataRecursively(doc.id, ref);
         })
     }
     ref.delete();
 };
+
+export const removeData = async (id, TYPE) => {
+    await getCurrentRef()
+        .collection(TYPE)
+        .doc(id)
+        .delete();
+}

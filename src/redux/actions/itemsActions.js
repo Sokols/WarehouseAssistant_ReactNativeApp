@@ -2,7 +2,9 @@ import { ITEMS_COLLECTION } from "../../data/constants";
 import { RESET_DATA, SET_ITEMS } from "./types";
 
 import { addData, getCurrentRef } from "../../data/firestore";
-import { addPhoto } from '../../data/storage';
+import { addPhoto, removePhoto } from '../../data/storage';
+
+import { removeData } from '../../data/firestore';
 
 export const resetData = () => dispatch => {
     dispatch({ type: RESET_DATA });
@@ -28,3 +30,9 @@ export const addItem = ({ id, data }) => () => {
     addData(id, data, ITEMS_COLLECTION);
     addPhoto(data.fileUri, data.fileName);
 }
+
+export const removeItem = (item) => () => {
+    const { id } = item;
+    removeData(id, ITEMS_COLLECTION);
+    removePhoto(item.fileName);
+};
