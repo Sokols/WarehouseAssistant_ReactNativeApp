@@ -1,33 +1,21 @@
 import React from 'react';
 
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
 
-import { MAIN_COLOR, SECONDARY_COLOR } from '../styles/colors';
+import { SECONDARY_COLOR } from '../styles/colors';
+import { HOME, STRUCTURE, ITEM_LIST, ADD_ITEM, PICK_ITEM } from './constants';
 
 import HomeScreen from '../screens/HomeScreen';
 import StructureScreen from '../screens/StructureScreen';
+import ItemListScreen from '../screens/ItemListScreen';
 import AddItemScreen from '../screens/AddItemScreen';
 import PickItemScreen from '../screens/PickItemScreen';
-import AccountScreen from '../screens/AccountScreen';
+
+import DefaultSidebarMenu from '../components/DefaultSidebarMenu';
+
+import { Icon } from 'react-native-elements';
 
 const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
-
-const Structure = () => {
-    return (
-        <Stack.Navigator
-            screenOptions={{
-                headerShown: false
-            }}>
-            <Stack.Screen
-                name="Structure"
-                component={StructureScreen}
-                initialParams={{ items: null }}
-            />
-        </Stack.Navigator>
-    )
-}
 
 const HomeDrawerNavigator = () => {
     return (
@@ -40,44 +28,54 @@ const HomeDrawerNavigator = () => {
                 headerTintColor: 'white'
             }}
             drawerType='slide'
-            drawerStyle={{
-                backgroundColor: MAIN_COLOR
-            }}
             drawerContentOptions={{
                 labelStyle: {
-                    color: 'white'
+                    color: 'white',
+                    fontSize: 16                    
                 },
                 activeTintColor: SECONDARY_COLOR
             }}
+            drawerContent={(props) => <DefaultSidebarMenu {...props} />}
         >
             <Drawer.Screen
-                name="Home"
+                name={HOME}
                 component={HomeScreen}
-            />
-            <Drawer.Screen
-                name="Structure"
-                component={Structure}
                 options={{
-                    title: 'Warehouse structure'
+                    title: 'Home',
+                    drawerIcon: () => (<Icon name='home' type='font-awesome' color='white' />)                  
                 }}
             />
             <Drawer.Screen
-                name="AddItem"
+                name={STRUCTURE}
+                component={StructureScreen}                
+                options={{
+                    title: 'Warehouse structure',
+                    drawerIcon: () => (<Icon name='archive' type='font-awesome' color='white' />)     
+                }}
+            />
+            <Drawer.Screen
+                name={ITEM_LIST}
+                component={ItemListScreen}                
+                options={{
+                    title: 'Item list',
+                    drawerIcon: () => (<Icon name='list' type='font-awesome' color='white' />)     
+                }}
+            />
+            <Drawer.Screen
+                name={ADD_ITEM}
                 component={AddItemScreen}
                 options={{
-                    title: 'Add item'
+                    title: 'Add item',
+                    drawerIcon: () => (<Icon name='download' type='font-awesome' color='white' />)     
                 }}
             />
             <Drawer.Screen
-                name="PickItem"
+                name={PICK_ITEM}
                 component={PickItemScreen}
                 options={{
-                    title: 'Pick item'
+                    title: 'Pick item',
+                    drawerIcon: () => (<Icon name='upload' type='font-awesome' color='white' />)                     
                 }}
-            />
-            <Drawer.Screen
-                name="Account"
-                component={AccountScreen}
             />
         </Drawer.Navigator>
     )

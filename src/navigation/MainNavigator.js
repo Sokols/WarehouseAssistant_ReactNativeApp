@@ -1,6 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { SPLASH, LOGIN, HOME } from './constants';
+
 import SplashScreen from '../screens/SplashScreen';
 import LoginStackNavigator from './LoginStackNavigator';
 import HomeDrawerNavigator from './HomeDrawerNavigator';
@@ -15,15 +17,15 @@ const MainNavigator = () => {
             }}
         >
             <Stack.Screen
-                name="Splash"
+                name={SPLASH}
                 component={SplashScreen}
             />
             <Stack.Screen
-                name="Login"
+                name={LOGIN}
                 component={LoginStackNavigator}
             />
             <Stack.Screen
-                name="Home"
+                name={HOME}
                 component={HomeDrawerNavigator}
             />
         </Stack.Navigator>

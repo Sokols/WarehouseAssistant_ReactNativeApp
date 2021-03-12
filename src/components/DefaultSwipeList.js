@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, Text, FlatList, TouchableOpacity, TouchableHighlight } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { View, StyleSheet, Text, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { SwipeListView } from 'react-native-swipe-list-view';
 
 import { MAIN_COLOR } from '../styles/colors';
 
-const DefaultSwipeList = ({ data, onItemClick, onHiddenItemClick }) => (
+const DefaultSwipeList = ({ data, onItemClick, onHiddenItemClick, listItem }) => (
     <SwipeListView
         data={data}
         keyExtractor={(item) => item.id}
@@ -14,15 +13,7 @@ const DefaultSwipeList = ({ data, onItemClick, onHiddenItemClick }) => (
                 <TouchableHighlight
                     onPress={() => onItemClick(item.id)}
                 >
-                    <ListItem
-                        bottomDivider
-                        containerStyle={styles.rowFrontStyle}
-                    >
-                        <ListItem.Content>
-                            <ListItem.Title style={styles.listItemStyle}>{item.id}</ListItem.Title>
-                        </ListItem.Content>
-                        <ListItem.Chevron size={24} />
-                    </ListItem>
+                    {listItem(item)}
                 </TouchableHighlight>
             </View>
         )}

@@ -1,5 +1,6 @@
 import React from 'react';
 import { createStackNavigator, CardStyleInterpolators } from '@react-navigation/stack';
+import { SIGNUP, SIGNIN } from '../navigation/constants';
 
 import SigninScreen from '../screens/SigninScreen';
 import SignupScreen from '../screens/SignupScreen';
@@ -15,11 +16,11 @@ const LoginStackNavigator = () => {
             }}
         >
             <Stack.Screen
-                name="Signin"
+                name={SIGNIN}
                 component={SigninScreen}
             />
             <Stack.Screen
-                name="Signup"
+                name={SIGNUP}
                 component={SignupScreen}
             />
         </Stack.Navigator>
