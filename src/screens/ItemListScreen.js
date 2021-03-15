@@ -6,6 +6,8 @@ import DefaultButton from '../components/DefaultButton';
 import ProvideItemOverlay from '../components/ProvideItemOverlay';
 import DefaultItemListItem from '../components/DefaultItemListItem';
 
+import { createCodeFromId } from '../utils/converters';
+
 import { connect } from 'react-redux';
 import { addItem, removeItem } from '../redux/actions/itemsActions';
 import { MAIN_COLOR, SECONDARY_COLOR } from '../styles/colors';

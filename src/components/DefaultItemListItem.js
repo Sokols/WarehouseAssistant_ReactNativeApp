@@ -26,7 +26,6 @@ const DefaultItemListItem = ({ item, onItemClick }) => {
                 />
                 <View style={styles.rightStyle}>
                     <Card.Title style={styles.titleStyle}>{item.name}</Card.Title>
-                    <Text style={styles.subtitleStyle}>ID: {item.id}</Text>
                     <TouchableOpacity
                         style={styles.deleteStyle}
                         onPress={() => onItemClick(item)}

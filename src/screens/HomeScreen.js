@@ -4,13 +4,13 @@ import { Image, Card, Divider } from 'react-native-elements';
 
 import { connect } from 'react-redux';
 
-import { setData, setMainRef } from '../redux/actions/structureActions';
+import { setPlaces, setMainRef } from '../redux/actions/structureActions';
 import { setItems } from '../redux/actions/itemsActions';
 
-import { SET_PLACES, SET_PLACES_TO_DISPLAY } from '../redux/actions/types';
+import { SET_PLACES } from '../redux/actions/types';
 import { LIGHT_COLOR, MAIN_COLOR, SECONDARY_COLOR } from '../styles/colors';
 
-const HomeScreen = ({ setData, setMainRef, setItems }) => {
+const HomeScreen = ({ setPlaces, setMainRef, setItems }) => {
 
   const steps = [
     {
@@ -38,8 +38,7 @@ const HomeScreen = ({ setData, setMainRef, setItems }) => {
   useEffect(() => {
     // SET UP DATA IN APP
     setMainRef();
-    setData(SET_PLACES);
-    setData(SET_PLACES_TO_DISPLAY);
+    setPlaces();
     setItems();
   })
 
@@ -64,14 +63,14 @@ const HomeScreen = ({ setData, setMainRef, setItems }) => {
   return (
     <ScrollView style={styles.scrollViewStyle}>
       <View style={styles.containerStyle}>
-      <Image
-        source={require('../../assets/logo.png')}
-        style={styles.imageStyle}
-      />
-      <Text style={styles.titleStyle}>Welcome to Warehouse Assistant!</Text>
-      <Divider style={styles.dividerStyle} />
-      <Text style={styles.subtitlStyle}>How it's working?</Text>
-      {cardFlatList()}
+        <Image
+          source={require('../../assets/logo.png')}
+          style={styles.imageStyle}
+        />
+        <Text style={styles.titleStyle}>Welcome to Warehouse Assistant!</Text>
+        <Divider style={styles.dividerStyle} />
+        <Text style={styles.subtitlStyle}>How it's working?</Text>
+        {cardFlatList()}
       </View>
     </ScrollView>
   );
@@ -79,7 +78,7 @@ const HomeScreen = ({ setData, setMainRef, setItems }) => {
 
 export default connect(
   null,
-  { setData, setMainRef, setItems }
+  { setPlaces, setMainRef, setItems }
 )(HomeScreen);
 
 const styles = StyleSheet.create({
