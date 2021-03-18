@@ -13,18 +13,18 @@ export const resetData = () => dispatch => {
 export const setItems = () => dispatch => {
     const snapshot = getCurrentRef()
         .collection(ITEMS_COLLECTION)
-        .onSnapshot(querySnapshot => {
-            let data = [];
-            querySnapshot.forEach(doc => {
-                data.push({ id: doc.id, ...doc.data() });
-            })
-            dispatch({
-                type: SET_ITEMS,
-                payload: data
-            });
-        });
-    return snapshot;
+        .orderBy('name');
+    setPlacesToDispatch(snapshot, dispatch);
 }
+
+export const setItemsBySearch = search => dispatch => {
+    const snapshot = getCurrentRef()
+        .collection(ITEMS_COLLECTION)
+        .orderBy('name')
+        .startAt(search)
+        .endAt(search + "\uf8ff");
+    setPlacesToDispatch(snapshot, dispatch);
+};
 
 export const addItem = ({ id, data }) => () => {
     addData(id, data, ITEMS_COLLECTION);
@@ -35,4 +35,17 @@ export const removeItem = (item) => () => {
     const { id } = item;
     removeData(id, ITEMS_COLLECTION);
     removePhoto(item.fileName);
+};
+
+const setPlacesToDispatch = (ref, dispatch) => {
+    ref.onSnapshot(querySnapshot => {
+        let data = [];
+        querySnapshot.forEach(doc => {
+            data.push({ id: doc.id, ...doc.data() });
+        })
+        dispatch({
+            type: SET_ITEMS,
+            payload: data
+        });
+    });
 };

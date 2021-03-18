@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
-import { Card, Text, Icon } from 'react-native-elements';
+import { Card, Icon } from 'react-native-elements';
 import { LIGHT_COLOR, SECONDARY_COLOR } from '../styles/colors';
 import { getPhotoUrl } from '../data/storage';
 
@@ -8,8 +8,16 @@ const DefaultItemListItem = ({ item, onItemClick }) => {
     const [imageUrl, setImageUrl] = useState(undefined);
 
     useEffect(() => {
-        getPhotoUrl(item.fileName)
-            .then(url => setImageUrl(url));
+        let isMounted = true;
+        item.fileName
+            ? getPhotoUrl(item.fileName)
+                .then(url => {
+                    if (isMounted) {
+                        setImageUrl(url);
+                    }
+                })
+            : null;
+        return () => { isMounted = false };
     });
 
     return (
@@ -21,9 +29,7 @@ const DefaultItemListItem = ({ item, onItemClick }) => {
                         source={{ uri: imageUrl }}
                     />
                 </View>
-                <View
-                    style={styles.dividerStyle}
-                />
+                <View style={styles.dividerStyle} />
                 <View style={styles.rightStyle}>
                     <Card.Title style={styles.titleStyle}>{item.name}</Card.Title>
                     <TouchableOpacity

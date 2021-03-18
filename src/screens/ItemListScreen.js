@@ -1,28 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList, View, StyleSheet } from 'react-native';
 import mainStyle from '../styles/style';
 
 import DefaultButton from '../components/DefaultButton';
 import ProvideItemOverlay from '../components/ProvideItemOverlay';
 import DefaultItemListItem from '../components/DefaultItemListItem';
-
-import { createCodeFromId } from '../utils/converters';
+import DefaultSearchBar from '../components/DefaultSearchBar';
 
 import { connect } from 'react-redux';
-import { addItem, removeItem } from '../redux/actions/itemsActions';
-import { MAIN_COLOR, SECONDARY_COLOR } from '../styles/colors';
+import { addItem, removeItem, setItemsBySearch } from '../redux/actions/itemsActions';
+import { MAIN_COLOR } from '../styles/colors';
 import EmptyInfoText from '../components/EmptyInfoText';
 
-const ItemListScreen = ({ items, addItem, removeItem }) => {
+const ItemListScreen = ({ items, addItem, removeItem, setItemsBySearch }) => {
     const [visible, setVisible] = useState(false);
 
     const toggleOverlay = () => {
         setVisible(!visible);
-    }
+    };
 
     return (
         <View style={mainStyle.viewStyle}>
             <View style={styles.structureStyle}>
+                <DefaultSearchBar 
+                    onUpdate={search => setItemsBySearch(search)}
+                />
                 {
                     items.length > 0
                         ? <FlatList
@@ -62,10 +64,9 @@ const mapStateToProps = ({ items }) => {
     return { items: data };
 }
 
-
 export default connect(
     mapStateToProps,
-    { addItem, removeItem }
+    { addItem, removeItem, setItemsBySearch }
 )(ItemListScreen);
 
 const styles = StyleSheet.create({

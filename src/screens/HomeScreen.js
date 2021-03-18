@@ -5,12 +5,12 @@ import { Image, Card, Divider } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { setPlaces, setMainRef } from '../redux/actions/structureActions';
-import { setItems } from '../redux/actions/itemsActions';
+import { setItemsBySearch } from '../redux/actions/itemsActions';
 
 import { SET_PLACES } from '../redux/actions/types';
 import { LIGHT_COLOR, MAIN_COLOR, SECONDARY_COLOR } from '../styles/colors';
 
-const HomeScreen = ({ setPlaces, setMainRef, setItems }) => {
+const HomeScreen = ({ setPlaces, setMainRef, setItemsBySearch }) => {
 
   const steps = [
     {
@@ -39,7 +39,7 @@ const HomeScreen = ({ setPlaces, setMainRef, setItems }) => {
     // SET UP DATA IN APP
     setMainRef();
     setPlaces();
-    setItems();
+    setItemsBySearch('');
   })
 
   const cardFlatList = () => (
@@ -78,7 +78,7 @@ const HomeScreen = ({ setPlaces, setMainRef, setItems }) => {
 
 export default connect(
   null,
-  { setPlaces, setMainRef, setItems }
+  { setPlaces, setMainRef, setItemsBySearch }
 )(HomeScreen);
 
 const styles = StyleSheet.create({

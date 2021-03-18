@@ -3,17 +3,21 @@ import auth from '@react-native-firebase/auth';
 import { ITEMS_COLLECTION } from './constants';
 
 export const getPhotoUrl = async (fileName) => {
-    const url = await getRef(fileName).getDownloadURL();
-    console.log(url);
-    return url;
+    return fileName
+        ? await getRef(fileName).getDownloadURL()
+        : null;
 };
 
 export const addPhoto = async (fileUri, fileName) => {
-    await getRef(fileName).putFile(fileUri);
+    fileName
+        ? await getRef(fileName).putFile(fileUri)
+        : null;
 };
 
 export const removePhoto = async (fileName) => {
-    await getRef(fileName).delete();
+    fileName
+        ? await getRef(fileName).delete()
+        : null;
 };
 
 const getRef = (fileName) => {
