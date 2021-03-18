@@ -14,17 +14,15 @@ const ProvideItemOverlay = ({ onSubmit, isVisible, toggleOverlay }) => {
     const [bottomSheetVisibility, setBottomSheetVisibility] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [image, setImage] = useState(null);
-    const [code, setCode] = useState('');
     const [name, setName] = useState('');
 
     const _onSubmit = () => {
-        if (name !== '' && code !== '') {
-            const id = code;
+        if (name !== '') {
             const data = { 
                 name, 
-                fileUri: image.uri ? image.uri : null, 
-                fileName: image.fileName ? image.fileName : null};
-            onSubmit({ id, data });
+                fileUri: image ? image.uri : null, 
+                fileName: image ? image.fileName : null};
+            onSubmit({ id: null, data });
             _onToggleOverlay();
         } else {
             setErrorMessage('Values cannot be null!');
@@ -35,16 +33,11 @@ const ProvideItemOverlay = ({ onSubmit, isVisible, toggleOverlay }) => {
         toggleOverlay();
         setErrorMessage('');
         setName('');
-        setCode('');
         setImage(null);
     };
 
     const _onNameChanged = name => {
         setName(name);
-    };
-
-    const _onCodeChanged = code => {
-        setCode(code);
     };
 
     const _handleBottomSheet = {
@@ -54,7 +47,6 @@ const ProvideItemOverlay = ({ onSubmit, isVisible, toggleOverlay }) => {
                     mediaType: 'photo'
                 },
                 newImage => !newImage.didCancel ? setImage(newImage) : null
-                // newImage => console.log(newImage)
             );
             setBottomSheetVisibility(false)
         },
@@ -85,12 +77,6 @@ const ProvideItemOverlay = ({ onSubmit, isVisible, toggleOverlay }) => {
                         secureTextEntry={false}
                         value={name}
                         onChangeText={_onNameChanged}
-                    />
-                    <DefaultInput
-                        placeholder='Code'
-                        secureTextEntry={false}
-                        value={code}
-                        onChangeText={_onCodeChanged}
                     />
                     {
                         image

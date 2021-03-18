@@ -1,7 +1,8 @@
-import { RESET_DATA, SET_REF } from './types';
-
-import { getCurrentRef, addData, nextRef, prevRef, getMainRef, prepareMainNode, removeData } from '../../data/firestore';
+import { RESET_DATA, SET_PLACES, SET_REF } from './types';
 import { PLACES_COLLECTION } from '../../data/constants';
+
+import { getCurrentRef, addData, nextRef, prevRef, getMainRef, prepareMainNode, removeDataRecursively } from '../../data/firestore';
+import { createCodeFromId } from '../../utils/converters';
 
 export const resetData = () => dispatch => {
     dispatch({ type: RESET_DATA });
@@ -19,7 +20,7 @@ export const setMainRef = () => dispatch => {
     });
 };
 
-export const setRef = (name, setData, TYPE) => dispatch => {
+export const setRef = (name, setData) => dispatch => {
     let ref;
     let refLevel = 0;
     if (name) {
@@ -33,10 +34,10 @@ export const setRef = (name, setData, TYPE) => dispatch => {
         type: SET_REF,
         payload: { ref, refLevel }
     });
-    setData(TYPE);
+    setData(SET_PLACES);
 };
 
-export const setData = TYPE => dispatch => {
+export const setPlaces = () => dispatch => {
     const snapshot = getCurrentRef()
         .collection(PLACES_COLLECTION)
         .onSnapshot(querySnapshot => {
@@ -45,18 +46,17 @@ export const setData = TYPE => dispatch => {
                 data.push({ id: doc.id, ...doc.data() });
             })
             dispatch({
-                type: TYPE,
+                type: SET_PLACES,
                 payload: data
             });
         });
     return snapshot;
 };
 
-
-export const addPlace = ({ id, data }) => () => {
-    addData(id, data, PLACES_COLLECTION);
+export const addPlace = id => () => {
+    addData(createCodeFromId(id + 1), {}, PLACES_COLLECTION);
 };
 
-export const removePlace = name => () => {
-    removeData(name, null);
+export const removePlace = id => () => {
+    removeDataRecursively(createCodeFromId(id), null);
 };

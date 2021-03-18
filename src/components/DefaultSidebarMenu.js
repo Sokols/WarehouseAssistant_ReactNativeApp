@@ -27,13 +27,14 @@ const DefaultSidebarMenu = (props) => {
             />
             <DrawerContentScrollView {...props}>
                 <DrawerItemList {...props} />
+                <DrawerItem
+                    icon={() => (<Icon name='power-off' type='font-awesome' color='white' />)}
+                    label="Log out"
+                    labelStyle={styles.logoutStyle}
+                    onPress={signout}
+                />
             </DrawerContentScrollView>
-            <DrawerItem
-                icon={() => (<Icon name='power-off' type='font-awesome' color='white' />)}
-                label="Log out"
-                labelStyle={styles.logoutStyle}
-                onPress={signout}
-            />
+            
         </View>
     );
 }

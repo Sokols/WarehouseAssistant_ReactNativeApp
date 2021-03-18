@@ -1,35 +1,33 @@
-import React, { useState } from 'react';
+import React from 'react';
 
-import { Text, SafeAreaView, View, StyleSheet } from 'react-native';
+import { ScrollView, SafeAreaView, View, StyleSheet } from 'react-native';
+import { Text, Divider } from 'react-native-elements';
 
 import mainStyle from '../styles/style';
+import { LIGHT_COLOR } from '../styles/colors';
 
 import DefaultButton from '../components/DefaultButton';
-import DefaultSwipeList from '../components/DefaultSwipeList';
-import ProvidePlaceOverlay from '../components/ProvidePlaceOverlay';
-
-import { connect } from 'react-redux';
-import { addPlace, removePlace, setRef, setData, setMainRef } from '../redux/actions/structureActions';
-import { SET_PLACES_TO_DISPLAY } from '../redux/actions/types';
-
+import DefaultStructureList from '../components/DefaultStructureList';
 import DefaultPlaceListItem from '../components/DefaultPlaceListItem';
 import EmptyInfoText from '../components/EmptyInfoText';
 
-const StructureScreen = ({ placesToDisplay, refLevel, addPlace, removePlace, setRef, setData }) => {
-  const [visible, setVisible] = useState(false);
+import { connect } from 'react-redux';
+import { addPlace, removePlace, setRef, setPlaces } from '../redux/actions/structureActions';
+import DefaultDivider from '../components/DefaultDivider';
 
-  const toggleOverlay = () => {
-    setVisible(!visible);
-  }
+const StructureScreen = ({ placesToDisplay, refLevel, addPlace, removePlace, setRef, setPlaces }) => {
 
   return (
     <View style={mainStyle.viewStyle}>
       <SafeAreaView style={styles.structureStyle}>
+        <Text h3 style={styles.levelTitleStyle}>{refLevel + 1}. Level:</Text>
+        <Text style={styles.levelSubtitleStyle}>Number of places: {placesToDisplay.length}</Text>
+        <DefaultDivider />
         {
           placesToDisplay.length > 0
-            ? <DefaultSwipeList
+            ? <DefaultStructureList
               data={placesToDisplay}
-              onItemClick={(id) => setRef(id, setData, SET_PLACES_TO_DISPLAY)}
+              onItemClick={(id) => setRef(id, setPlaces)}
               onHiddenItemClick={(id) => removePlace(id)}
               listItem={(item) => (<DefaultPlaceListItem item={item} />)}
             />
@@ -37,24 +35,26 @@ const StructureScreen = ({ placesToDisplay, refLevel, addPlace, removePlace, set
               text={'There is nothing here.\nAdd new warehouse level!'}
             />
         }
-
+        <DefaultDivider />
         <View style={styles.buttonsContainerStyle}>
-          <DefaultButton
-            buttonText="RETURN"
-            isClickable={refLevel > 0 ? true : false}
-            onClick={() => setRef(null, setData, SET_PLACES_TO_DISPLAY)}
-          />
-          <DefaultButton
-            buttonText="ADD A PLACE"
-            isClickable
-            onClick={toggleOverlay}
-          />
+          <ScrollView horizontal >
+            <DefaultButton
+              buttonText="RETURN"
+              isClickable={refLevel > 0 ? true : false}
+              onClick={() => setRef(null, setPlaces)}
+            />
+            <DefaultButton
+              buttonText="ADD PLACE"
+              isClickable
+              onClick={() => addPlace(placesToDisplay.length)}
+            />
+            <DefaultButton
+              buttonText="REMOVE PLACE"
+              isClickable
+              onClick={() => removePlace(placesToDisplay.length)}
+            />
+          </ScrollView>
         </View>
-        <ProvidePlaceOverlay
-          isVisible={visible}
-          toggleOverlay={toggleOverlay}
-          onSubmit={data => addPlace(data)}
-        />
       </SafeAreaView>
     </View>
   );
@@ -67,7 +67,7 @@ const mapStateToProps = ({ structure }) => {
 
 export default connect(
   mapStateToProps,
-  { addPlace, removePlace, setRef, setMainRef, setData }
+  { addPlace, removePlace, setRef, setPlaces }
 )(StructureScreen);
 
 const styles = StyleSheet.create({
@@ -77,7 +77,17 @@ const styles = StyleSheet.create({
   },
   buttonsContainerStyle: {
     flexDirection: 'row',
-    margin: 25,
-    justifyContent: 'space-around'
+    margin: 15,
   },
+  levelTitleStyle: {
+    padding: 10,
+    alignSelf: 'center',
+    color: 'white',
+  },
+  levelSubtitleStyle: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    padding: 10,
+    color: 'white',
+  }
 });

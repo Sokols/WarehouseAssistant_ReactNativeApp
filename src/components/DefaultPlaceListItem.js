@@ -5,7 +5,6 @@ import { MAIN_COLOR } from '../styles/colors';
 
 const DefaultPlaceListItem = ({ item }) => (
     <ListItem
-        bottomDivider
         containerStyle={styles.rowFrontStyle}
     >
         <ListItem.Content>
